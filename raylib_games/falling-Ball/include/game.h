@@ -47,4 +47,5 @@ private:
 	uint32_t platformDistance;
 	bool platformCreated;
 	bool gameOver;
+	bool updateScore;
 };

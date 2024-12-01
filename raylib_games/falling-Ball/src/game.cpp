@@ -47,7 +47,13 @@ void Game::checkBallFall()
 		if(CheckCollisionRecs(newPosition, platfm)){
 			falling = false;
 			ball.position.y = platfm.y-20;
-			//PlaySound(landingSound);
+			if(updateScore == true)
+			{
+				score++;
+				PlaySound(landingSound);
+				updateScore = false;
+			}
+			break;
 		}
 	}
 	if(falling == false)
@@ -56,6 +62,7 @@ void Game::checkBallFall()
 	}
 	else
 	{
+		updateScore = true;
 		ball.falling = true;
 	}
 }
@@ -238,7 +245,9 @@ void Game::run()
 				ball.position = {140,180,20,20};
 				ball.falling = false;
 				level = EASY;
+				score = 0;
 				gameOver = false;
+				updateScore = false;
 			}
 		}
 	}
