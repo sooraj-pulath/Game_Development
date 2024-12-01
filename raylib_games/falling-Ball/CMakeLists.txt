@@ -18,3 +18,4 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} raylib dl pthread)
 
 file(COPY ${PROJECT_SOURCE_DIR}/sounds DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${PROJECT_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})

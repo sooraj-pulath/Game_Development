@@ -108,6 +108,20 @@ void Game::run()
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Falling Ball Game");
 	SetTargetFPS(60);
 
+	Texture2D background = LoadTexture("assets/skybackground.png");
+
+	Rectangle sourceRec = { 0.0f, 0.0f, (float)background.width, (float)background.height};
+	Rectangle destRec = {LUD_BORDER,LUD_BORDER,(WINDOW_WIDTH-LUD_BORDER-RIGHT_BORDER),(WINDOW_HEIGHT - 2 * LUD_BORDER)};
+
+	Texture2D brickwall = LoadTexture("assets/brickwall.png");
+	Rectangle bricksrcRec = { 0.0f, 10.0f, (float)brickwall.width, (float)20};
+
+	Texture2D balltexture = LoadTexture("assets/ball.png");
+	Rectangle ballRec = { 0.0f, 10.0f, (float)balltexture.width, (float)balltexture.height};
+
+	Vector2 origin = { 0.0f, 0.0f };
+
+	float rotation = 0.0f;
 	platformCreated = true;
 	gameOver = false;
 	PlayMusicStream(bgMusic);
@@ -172,6 +186,7 @@ void Game::run()
 		{
 			BeginDrawing();
 			ClearBackground(BLACK);
+
 			DrawText("SCORE", 390, 40 , 38, WHITE);
 			DrawRectangleRounded({380, 80, 150, 60}, 0.3, 6, darkGrey);
 			DrawText(TextFormat("%d",score), 400, 90 , 38, WHITE);
@@ -191,13 +206,17 @@ void Game::run()
 			( level == EXTREME) ?  DrawRectangle(410,410,10,10,darkRed) : DrawRectangleLinesEx(extremeRectangle,1,darkRed);
 			DrawText("extreme", 430, 403 , 20, darkRed);
 
-			DrawRectangle(LUD_BORDER,LUD_BORDER,(WINDOW_WIDTH-LUD_BORDER-RIGHT_BORDER),(WINDOW_HEIGHT - 2 * LUD_BORDER),darkGrey);
-
-			DrawRectangleRounded(ball.position,1.0,15,GREEN);
+			//DrawRectangle(LUD_BORDER,LUD_BORDER,(WINDOW_WIDTH-LUD_BORDER-RIGHT_BORDER),(WINDOW_HEIGHT - 2 * LUD_BORDER),darkGrey);
+			DrawTexturePro(background, sourceRec, destRec, origin, 0.0f, WHITE);
+			
+			//origin = {ball.position.width/2, ball.position.height/2};
+			//DrawRectangleRounded(ball.position,1.0,15,GREEN);
+			DrawTexturePro(balltexture, ballRec,ball.position, origin, rotation, WHITE);
 
 			for(auto platfm : platform)
 			{
-				DrawRectangleRounded(platfm, 0.9, 15, RED);
+				DrawTexturePro(brickwall, bricksrcRec, platfm, origin, 0.0f, WHITE);
+				//DrawRectangleRounded(platfm, 0.9, 15, RED);
 			}
 
 			EndDrawing();
